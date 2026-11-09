@@ -30,9 +30,19 @@ graph.add_edge(START,"assistant_response")
 graph.add_edge("assistant_response",END)
 
 checkpointer=MemorySaver()
+
 config={"configurable": {"thread_id": "1"}}
 
 app=graph.compile(checkpointer=checkpointer)
-app.invoke({"messages": [HumanMessage(content="Hello! My name is devanshi")]}, config)
-result=app.invoke({"messages": [HumanMessage(content="what is my name?")]}, config)
-print(result["messages"][-1].content)
+
+def stream_reply(user_input,thread_id):
+    config={"configurable":{"thread_id": thread_id}}
+    for chunk,metadata in app.stream(
+        {"messages":[HumanMessage(content=user_input)]},
+        config=config,
+        stream_mode="messages"
+    ):
+        yield chunk.content
+
+
+
