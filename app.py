@@ -11,7 +11,7 @@ load_dotenv()
 #     usermsg:str
 #     assistantmsg:str
 
-model=ChatOpenAI(model="gpt-4o-mini")
+model=ChatOpenAI(model="gpt-6-luna")
 
 # def user_response(state: MessagesState):
 #     cleaned = state["usermsg"].strip()
